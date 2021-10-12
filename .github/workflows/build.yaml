@@ -18,7 +18,7 @@ jobs:
           if [ GITHUB_BRANCH == 'main' ]; then
             TAG_NAME=${{ env.CSI_PROXY_VERSION }};
           else
-            TAG_NAME=${{ env.GITHUB_BRANCH }}-${{ env.CSI_PROXY_VERSION }};
+            TAG_NAME=$GITHUB_BRANCH-${{ env.CSI_PROXY_VERSION }};
           fi
           echo "TAG_NAME=$TAG_NAME"
           echo "TAG_NAME=$TAG_NAME" >> $GITHUB_ENV
