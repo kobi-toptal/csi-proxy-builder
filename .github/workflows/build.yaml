@@ -20,16 +20,14 @@ jobs:
       - name: 'build csi-proxy'
         run: |
           docker run --rm -v "$PWD":/usr/src/myapp -w /usr/src/myapp golang:1.16 make build
+      - name: 'set GITHUB_BRANCH'
+        run: |
+          GITHUB_BRANCH=${GITHUB_REF##*/}
+          echo "GITHUB_BRANCH=$GITHUB_BRANCH" >> $GITHUB_ENV
       - name: 'Create a GitHub release'
         uses: 'softprops/action-gh-release@v0.1.13'
         env:
           GITHUB_TOKEN: '${{ secrets.REPO_ONLY }}'
         with:
-          tag_name: 'test5-${{ env.CSI_PROXY_VERSION }}'
+          tag_name: '${{ env.GITHUB_BRANCH }}-${{ env.CSI_PROXY_VERSION }}'
           files: '/home/runner/work/csi-proxy-builder/csi-proxy-builder/bin/csi-proxy.exe'
-      # - uses: ncipollo/release-action@v1
-      #   env:
-      #     GITHUB_TOKEN: '${{ secrets.REPO_ONLY }}'
-      #   with:
-      #     artifacts: "/home/runner/work/csi-proxy-builder/csi-proxy-builder/bin/csi-proxy.exe"
-      #     tag: 'test4-${{ env.CSI_PROXY_VERSION }}'
