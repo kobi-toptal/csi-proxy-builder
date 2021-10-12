@@ -12,6 +12,16 @@ jobs:
     runs-on: 'ubuntu-20.04'
     name: 'Create Release'
     steps:
+      - name: 'set TAG_NAME'
+        run: |
+          GITHUB_BRANCH=${GITHUB_REF##*/}
+          if [ GITHUB_BRANCH == 'main' ]; then
+            TAG_NAME=${{ env.CSI_PROXY_VERSION }};
+          else
+            TAG_NAME=${{ env.GITHUB_BRANCH }}-${{ env.CSI_PROXY_VERSION }};
+          fi
+          echo "TAG_NAME=$TAG_NAME"
+          echo "TAG_NAME=$TAG_NAME" >> $GITHUB_ENV
       - uses: 'actions/checkout@v2.3.4'
         with:
           repository: 'kubernetes-csi/csi-proxy'
@@ -20,15 +30,6 @@ jobs:
       - name: 'build csi-proxy'
         run: |
           docker run --rm -v "$PWD":/usr/src/myapp -w /usr/src/myapp golang:1.16 make build
-      - name: 'set GITHUB_BRANCH'
-        run: |
-          GITHUB_BRANCH=${GITHUB_REF##*/}
-          if [ GITHUB_BRANCH == 'main' ]; then
-            echo "TAG_NAME=${{ env.CSI_PROXY_VERSION }}" >> $GITHUB_ENV;
-          else
-            echo "TAG_NAME=${{ env.GITHUB_BRANCH }}-${{ env.CSI_PROXY_VERSION }}" >> $GITHUB_ENV;
-          fi
-          echo $TAG_NAME
       - name: 'Create a GitHub release'
         uses: 'softprops/action-gh-release@v0.1.13'
         env:
