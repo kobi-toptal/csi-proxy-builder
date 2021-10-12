@@ -34,4 +34,4 @@ jobs:
           GITHUB_TOKEN: '${{ secrets.REPO_ONLY }}'
         with:
           artifacts: "csi-proxy*"
-          tag: 'test-${{ env.CSI_PROXY_VERSION }}'
+          tag: 'test2-${{ env.CSI_PROXY_VERSION }}'
