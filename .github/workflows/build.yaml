@@ -19,6 +19,7 @@ jobs:
           fetch-depth: 0
       - name: 'build csi-proxy'
         run: |
+          ls -lR
           docker run --rm -v "$PWD":/usr/src/myapp -w /usr/src/myapp golang:1.16 make build
           cd bin
           ls
