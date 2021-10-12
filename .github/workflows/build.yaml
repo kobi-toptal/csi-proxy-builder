@@ -22,10 +22,11 @@ jobs:
         run: |
           cd csi-proxy/
           docker run --rm -v "$PWD":/usr/src/myapp -w /usr/src/myapp golang:1.17 make build
+          ls bin
       - name: 'Create a GitHub release'
         uses: 'softprops/action-gh-release@v1'
         env:
           GITHUB_TOKEN: '${{ secrets.REPO_ONLY }}'
         with:
-          tag_name: '${GITHUB_REF#refs/heads/}-${{ env.CSI_PROXY_VERSION }}'
-          files: bin/csi-proxy.exe
+          tag_name: '${GITHUB_REF##*/}-${{ env.CSI_PROXY_VERSION }}'
+          files: 'bin/csi-proxy.exe'
