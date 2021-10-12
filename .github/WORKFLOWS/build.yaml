@@ -1,0 +1,31 @@
+name: 'Create Release'
+
+on:
+  push:
+    # branches: ['main']
+
+env:
+  CSI_PROXY_VERSION: 'v1.0.1'
+
+jobs:
+  create_release:
+    runs-on: 'ubuntu-20.04'
+    name: 'Create Release'
+    steps:
+      - uses: 'actions/checkout@v2.3.4'
+        with:
+          repository: 'kubernetes-csi/csi-proxy'
+          ref: '${{ env.CSI_PROXY_VERSION }}'
+          fetch-depth: 0
+          path: 'csi-proxy'
+      - name: 'build csi-proxy'
+        run: |
+          cd csi-proxy/
+          docker run --rm -v "$PWD":/usr/src/myapp -w /usr/src/myapp golang:1.17 make build
+      - name: 'Create a GitHub release'
+        uses: 'softprops/action-gh-release@v1'
+        env:
+          GITHUB_TOKEN: '${{ secrets.REPO_ONLY }}'
+        with:
+          tag_name: '${GITHUB_REF#refs/heads/}-${{ env.CSI_PROXY_VERSION }}'
+          files: bin/csi-proxy.exe
