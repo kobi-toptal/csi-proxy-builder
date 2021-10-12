@@ -19,7 +19,6 @@ jobs:
           fetch-depth: 0
       - name: 'build csi-proxy'
         run: |
-          cd csi-proxy/
           docker run --rm -v "$PWD":/usr/src/myapp -w /usr/src/myapp golang:1.16 make build
       - name: 'Create a GitHub release'
         uses: 'softprops/action-gh-release@v1'
