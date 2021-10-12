@@ -21,7 +21,7 @@ jobs:
         run: |
           docker run --rm -v "$PWD":/usr/src/myapp -w /usr/src/myapp golang:1.16 make build
       - name: 'Create a GitHub release'
-        uses: 'softprops/action-gh-release@v1'
+        uses: 'softprops/action-gh-release@v0.1.13'
         env:
           GITHUB_TOKEN: '${{ secrets.REPO_ONLY }}'
         with:
