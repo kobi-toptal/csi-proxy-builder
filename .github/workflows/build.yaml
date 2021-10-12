@@ -26,4 +26,4 @@ jobs:
           GITHUB_TOKEN: '${{ secrets.REPO_ONLY }}'
         with:
           tag_name: 'test-${{ env.CSI_PROXY_VERSION }}'
-          files: csi-proxy.exe
+          files: 'csi-proxy\.exe'
