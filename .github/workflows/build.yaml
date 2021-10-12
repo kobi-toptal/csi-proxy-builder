@@ -12,10 +12,6 @@ jobs:
     runs-on: 'ubuntu-20.04'
     name: 'Create Release'
     steps:
-      - name: 'build csi-proxy'
-        run: |
-          ls
-          pwd
       - uses: 'actions/checkout@v2.3.4'
         with:
           repository: 'kubernetes-csi/csi-proxy'
@@ -23,21 +19,17 @@ jobs:
           fetch-depth: 0
       - name: 'build csi-proxy'
         run: |
-          ls
-          pwd
           docker run --rm -v "$PWD":/usr/src/myapp -w /usr/src/myapp golang:1.16 make build
-          cd bin
-          ls
-      # - name: 'Create a GitHub release'
-      #   uses: 'softprops/action-gh-release@v0.1.13'
-      #   env:
-      #     GITHUB_TOKEN: '${{ secrets.REPO_ONLY }}'
-      #   with:
-      #     tag_name: 'test-${{ env.CSI_PROXY_VERSION }}'
-      #     files: 'csi-proxy*'
-      - uses: ncipollo/release-action@v1
+      - name: 'Create a GitHub release'
+        uses: 'softprops/action-gh-release@v0.1.13'
         env:
           GITHUB_TOKEN: '${{ secrets.REPO_ONLY }}'
         with:
-          artifacts: "/home/runner/work/csi-proxy-builder/csi-proxy-builder/bin/csi-proxy.exe"
-          tag: 'test4-${{ env.CSI_PROXY_VERSION }}'
+          tag_name: 'test5-${{ env.CSI_PROXY_VERSION }}'
+          files: '/home/runner/work/csi-proxy-builder/csi-proxy-builder/bin/csi-proxy.exe'
+      # - uses: ncipollo/release-action@v1
+      #   env:
+      #     GITHUB_TOKEN: '${{ secrets.REPO_ONLY }}'
+      #   with:
+      #     artifacts: "/home/runner/work/csi-proxy-builder/csi-proxy-builder/bin/csi-proxy.exe"
+      #     tag: 'test4-${{ env.CSI_PROXY_VERSION }}'
