@@ -28,6 +28,7 @@ jobs:
           else
             echo "TAG_NAME=${{ env.GITHUB_BRANCH }}-${{ env.CSI_PROXY_VERSION }}" >> $GITHUB_ENV;
           fi
+          echo $TAG_NAME
       - name: 'Create a GitHub release'
         uses: 'softprops/action-gh-release@v0.1.13'
         env:
