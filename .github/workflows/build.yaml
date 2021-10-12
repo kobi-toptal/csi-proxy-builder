@@ -17,18 +17,14 @@ jobs:
           repository: 'kubernetes-csi/csi-proxy'
           ref: '${{ env.CSI_PROXY_VERSION }}'
           fetch-depth: 0
-          path: 'csi-proxy'
       - name: 'build csi-proxy'
         run: |
           cd csi-proxy/
-          docker run --rm -v "$PWD":/usr/src/myapp -w /usr/src/myapp golang:1.17 make build
-          cp bin/csi-proxy.exe ~/
-          cd ~/
-          ls
+          docker run --rm -v "$PWD":/usr/src/myapp -w /usr/src/myapp golang:1.16 make build
       - name: 'Create a GitHub release'
         uses: 'softprops/action-gh-release@v1'
         env:
           GITHUB_TOKEN: '${{ secrets.REPO_ONLY }}'
         with:
-          tag_name: '${GITHUB_REF##*/}-${{ env.CSI_PROXY_VERSION }}'
+          tag_name: 'test-${{ env.CSI_PROXY_VERSION }}'
           files: csi-proxy.exe
