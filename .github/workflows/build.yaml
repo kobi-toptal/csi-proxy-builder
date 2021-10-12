@@ -12,6 +12,10 @@ jobs:
     runs-on: 'ubuntu-20.04'
     name: 'Create Release'
     steps:
+      - name: 'build csi-proxy'
+        run: |
+          ls
+          pwd
       - uses: 'actions/checkout@v2.3.4'
         with:
           repository: 'kubernetes-csi/csi-proxy'
@@ -19,7 +23,8 @@ jobs:
           fetch-depth: 0
       - name: 'build csi-proxy'
         run: |
-          ls -lR
+          ls
+          pwd
           docker run --rm -v "$PWD":/usr/src/myapp -w /usr/src/myapp golang:1.16 make build
           cd bin
           ls
